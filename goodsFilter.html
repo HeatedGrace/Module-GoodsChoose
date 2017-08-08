@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul {
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				list-style: none;
+			}
+			strong {
+				font-weight: normal;
+			}
+			.wrap {
+				width: 982px;
+				border-top: 2px solid #4daedd;
+				margin: 0 auto;
+			}
+			#choice {
+				box-sizing: border-box;
+				height: 60px;
+				padding: 20px 0;
+				font: 12px/20px "微软雅黑";
+				border: 1px solid #bfe3f1;
+				border-top: none;
+			}
+			.choiceTitle {
+				width: 110px;
+				float: left;
+				text-align: center;
+			}
+			.choiceContent {
+				float: left;
+			}
+			#choice span {
+				border: 1px solid #dddddd;
+				background-color: #f3f3f3;
+				float: left;
+				padding-left: 5px;
+				margin-right: 6px;
+			}
+			.choiceContent strong {
+				display: inline-block;
+				background-color: #00BFFF;
+				padding: 0 4px;
+				margin-left: 4px;
+				color: #fff;
+				cursor: pointer;
+			}
+			#list li {
+				border: 1px solid #bfe3f1;
+				border-top: none;
+				font: 12px/26px "微软雅黑";
+				width: 980px;
+				background-color: #f2fbff;
+			}
+			#list .itemTitle {
+				float: left;
+				width: 110px;
+				text-indent: 10px;
+				padding-top: 11px;
+				height: 100%;
+				font: 12px/26px "微软雅黑";
+			}
+			#list .itemContent {
+				float: left;
+				padding: 11px 0;
+				width: 870px;
+				background-color: #fff;
+			}
+			#list .itemContent span {
+				float: left;
+				margin: 0 13px;
+				cursor: pointer;
+			}
+			.clearFix {
+				zoom:1;
+			}
+			.clearFix:after {
+				content: ".";
+				display: block;
+				visibility: hidden;
+				height: 0;
+				clear: both;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<div id="choice" class="clearFix">
+				<div class="choiceTitle">
+					你的选择：
+				</div>
+				<div class="choiceContent">
+					<!--<span>小米<strong>X</strong></span>
+					<span>小米<strong>X</strong></span>-->
+				</div>
+			</div>
+			<div id="list">
+				<ul>
+					<!--<li class="clearFix">
+						<div class="itemTitle">品牌：</div>
+						<div class="itemContent">
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+							<span>4000-4999元</span>
+						</div>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+			
+			var data = [
+				{
+					"品牌":["小米","苹果","三星","华为","酷派","联想","中兴","vivo",
+							"索尼","OPPO","LG","天语","诺基亚","HTC","摩托罗拉","大显",
+							"黑莓","魅族","飞利浦","金立","索尼爱立信"],
+					"价格":["499元以下","500-999元","1000-1999元","2000-2999元","3000-3999元","4000-4999元","5000元以上"],
+					"手机特色": ["学生机","智能","国产","千元机","商务","天翼","看电影","老人机","百元"],
+					"手机配置": ["电信4G","双核","拍照","四核","双4G","移动4G","WP8","高清","1080P高清"]
+				}
+			];
+			
+			var choiceData = {};		//用来存储已选择项数据
+			
+			
+			var list = document.getElementById("list");
+			var ul = list.getElementsByTagName("ul")[0];
+			
+			var ulStr = "";
+			for( var attr in data[0] ){
+				choiceData[attr] = "";
+				ulStr += '<li class="clearFix"><div class="itemTitle">'+ attr +':</div><div class="itemContent">';
+				for (var i = 0; i < data[0][attr].length; i++) {
+					ulStr += '<span group='+ attr +'>'+ data[0][attr][i] +'</span>';
+				}
+				ulStr += '</div></li>';
+			}
+			
+			ul.innerHTML = ulStr;
+			
+			var spans = ul.getElementsByTagName("span");
+			var choice = document.getElementById("choice");
+			var choiceContent = choice.getElementsByTagName("div")[1];
+			
+			
+			for (var i = 0; i < spans.length; i++) {
+				spans[i].onclick = function(){
+					var group = this.getAttribute("group");
+					choiceData[group] = this.innerHTML;
+					createChoice();
+				}
+			}
+			
+			function createChoice(){
+				var choiceContentStr = "";
+				for(var attr in choiceData){
+					if( choiceData[attr] != "" ){
+						choiceContentStr += '<span group=' + attr + '>' + choiceData[attr] + '<strong>X</strong></span>'
+					}
+				}
+				choiceContent.innerHTML = choiceContentStr;
+				
+				var strongs = choiceContent.getElementsByTagName("strong");
+				for (var i = 0; i < strongs.length; i++) {
+					strongs[i].onclick = function(){
+						choiceContent.removeChild(this.parentElement);
+						var group = this.parentElement.getAttribute("group");
+						choiceData[group] = "";
+					}
+				}
+			}
+			
+			
+		</script>
+		
+	</body>
+</html>
