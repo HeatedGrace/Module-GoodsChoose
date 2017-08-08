@@ -8,8 +8,8 @@
 
 
 		文件
-			导购选择.html
+			goodsFilter.html
 			使用一个对象存储筛选条件，之后根据这个对象动态渲染已选条件
 
-			导购选择方法二.html
+			goodsFilterWay2.html
 			是将筛选条件写好在html结构中，点击条件，改变内容，display为block
